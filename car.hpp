@@ -5,8 +5,10 @@
 
 class Car : public sf::Sprite
 {
+protected:
+    sf::Texture texture;
 public:
-    virtual void drive()=0;
+    virtual void drive(int permission)=0;
 };
 
 #endif
