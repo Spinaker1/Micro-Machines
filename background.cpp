@@ -2,6 +2,6 @@
 
 Background::Background()
 {
-    this->texture.loadFromFile("background.jpg");
+    this->texture.loadFromFile("images/background.png");
     this->setTexture(texture);
 }

@@ -5,12 +5,10 @@
 
 class Player : public  Car
 {
-private:
-    sf::Texture texture;
 public:
-    Player(sf::Vector2f vector);
-    Player(double x, double y);
-    void drive();
+    Player(sf::Vector2f vector, double rotation);
+    Player(double x, double y, double rotation);
+    void drive(int permission);
 };
 
 #endif
