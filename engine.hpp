@@ -21,7 +21,6 @@ public:
     Engine(sf::RenderWindow * win);
     ~Engine();
     void update();
-    bool check_collision(sf::Vector2f *A,int sizeA, sf::Vector2f *B, int sizeB, sf::Vector2f &offset);
 };
 
 #endif
