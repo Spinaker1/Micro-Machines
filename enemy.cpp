@@ -10,6 +10,7 @@ Enemy::Enemy(sf::Vector2f vector, double rotation)
     this->setPosition(vector);
     this->setRotation(rotation);
     this->setOrigin(CAR_LENGTH/2,CAR_HEIGHT/2);
+    this->set_vertices();
 }
 
 Enemy::Enemy(double x, double y, double rotation)
@@ -19,6 +20,7 @@ Enemy::Enemy(double x, double y, double rotation)
     this->setPosition(x,y);
     this->setRotation(rotation);
     this->setOrigin(CAR_LENGTH/2,CAR_HEIGHT/2);
+    this->set_vertices();
 }
 
 void Enemy::drive(int permission)

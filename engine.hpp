@@ -21,6 +21,7 @@ public:
     Engine(sf::RenderWindow * win);
     ~Engine();
     void update();
+    bool cars_collision();
 };
 
 #endif

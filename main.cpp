@@ -3,8 +3,6 @@
 #include "globals.hpp"
 #include "engine.hpp"
 
-
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_LENGTH, WINDOW_HEIGHT, 32), "Micro-Machines");

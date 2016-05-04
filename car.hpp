@@ -12,7 +12,7 @@ protected:
 public:
     virtual void drive(int permission)=0;
     void set_vertices();
-    sf::Vector2f vertices[4];
+    sf::Vector2f vertices[8];
 };
 
 #endif
