@@ -22,18 +22,20 @@ Engine::~Engine()
 
 void Engine::update()
 {
-    sf::Vector2f last_player_position=player->getPosition();
-    if (cars_collision()) player->drive(PERMISSION_RIDE_BACK);
-    else player->drive(PERMISSION_RIDE);
+    player->drive(PERMISSION_RIDE);
+    if (cars_collision())
+    {
+        double a=enemy->getPosition().x-player->getPosition().x;
+        double b=enemy->getPosition().y-player->getPosition().y;
+        double d=sqrt(a*a+b*b);
+        player->setPosition(player->getPosition().x-a/d*4,player->getPosition().y-b/d*4);
+    }
     view->setCenter(player->getPosition());
     window->setView(*view);
     window->clear(sf::Color::Black);
     window->draw(*background);
     window->draw(*enemy);
     window->draw(*player);
-
-
-
     window->display();
 }
 
