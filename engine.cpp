@@ -1,12 +1,15 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "engine.hpp"
+#include "background.hpp"
 #include <iostream>
+#include <math.h>
 
 Engine::Engine(sf::RenderWindow * win)
 {
 window=win;
 background=new Background;
+background->LoadMap("images/test.map");
 view=new sf::View(sf::Vector2f(PLAYER_START_X, PLAYER_START_Y), sf::Vector2f(WINDOW_LENGTH, WINDOW_HEIGHT));
 player=new Player(PLAYER_START_X,PLAYER_START_Y,PLAYER_START_ROTATION);
 enemy=new Enemy(ENEMY_START_X,ENEMY_START_Y,ENEMY_START_ROTATION);
@@ -22,14 +25,7 @@ Engine::~Engine()
 
 void Engine::update()
 {
-    player->drive(PERMISSION_RIDE);
-    if (cars_collision())
-    {
-        double a=enemy->getPosition().x-player->getPosition().x;
-        double b=enemy->getPosition().y-player->getPosition().y;
-        double d=sqrt(a*a+b*b);
-        player->setPosition(player->getPosition().x-a/d*4,player->getPosition().y-b/d*4);
-    }
+    player->drive(cars_collision(enemy,player) );
     view->setCenter(player->getPosition());
     window->setView(*view);
     window->clear(sf::Color::Black);
@@ -39,22 +35,22 @@ void Engine::update()
     window->display();
 }
 
-bool Engine::cars_collision()
+int Engine::cars_collision(Enemy *enemycar, Player *playercar)
 {
     if (enemy->getRotation() == 0 || enemy->getRotation()==90 || enemy->getRotation()==180 || enemy->getRotation()==270)
     {
-        double A = enemy->vertices[0].x;
-        double B = enemy->vertices[2].x;
-        double C = enemy->vertices[0].y;
-        double D = enemy->vertices[2].y;
-        for (int i = 0; i <= 7; i++)
+        double A = enemycar->vertices[0].x;
+        double B = enemycar->vertices[2].x;
+        double C = enemycar->vertices[0].y;
+        double D = enemycar->vertices[2].y;
+        for (int i = 0; i <= 5; i++)
         {
-            double x = player->vertices[i].x;
-            double y = player->vertices[i].y;
-            if (enemy->getRotation() == 0 && x < A && x > B && y < C && y > D) return true;
-            if (enemy->getRotation() == 90 && x > A && x < B && y < C && y > D) return true;
-            if (enemy->getRotation() == 180 && x > A && x < B && y > C && y < D) return true;
-            if (enemy->getRotation() == 270 && x < A && x > B && y > C && y < D) return true;
+            double x = playercar->vertices[i].x;
+            double y = playercar->vertices[i].y;
+            if (enemy->getRotation() == 0 && x < A && x > B && y < C && y > D) return i;
+            if (enemy->getRotation() == 90 && x > A && x < B && y < C && y > D) return i;
+            if (enemy->getRotation() == 180 && x > A && x < B && y > C && y < D) return i;
+            if (enemy->getRotation() == 270 && x < A && x > B && y > C && y < D) return i;
         }
     }
     else
@@ -65,23 +61,23 @@ bool Engine::cars_collision()
             int n;
             if (i==0) n=3;
             else n=i-1;
-            double x1=enemy->vertices[i].x;
-            double x2=enemy->vertices[n].x;
-            double y1=enemy->vertices[i].y;
-            double y2=enemy->vertices[n].y;
+            double x1=enemycar->vertices[i].x;
+            double x2=enemycar->vertices[n].x;
+            double y1=enemycar->vertices[i].y;
+            double y2=enemycar->vertices[n].y;
             a[i]=(y1-y2)/(x1-x2);
             b[i]=y1-a[i]*x1;
         }
         for (int i = 0; i <= 5; i++)
         {
-            double x = player->vertices[i].x;
-            double y = player->vertices[i].y;
+            double x = playercar->vertices[i].x;
+            double y = playercar->vertices[i].y;
 
-            if (y<a[0]*x+b[0] && y<a[1]*x+b[1] && y>a[2]*x+b[2] && y>a[3]*x+b[3]) return true;
-            if (y>a[0]*x+b[0] && y>a[1]*x+b[1] && y<a[2]*x+b[2] && y<a[3]*x+b[3]) return true;
-            if (y<a[0]*x+b[0] && y>a[1]*x+b[1] && y>a[2]*x+b[2] && y<a[3]*x+b[3]) return true;
-            if (y>a[0]*x+b[0] && y<a[1]*x+b[1] && y<a[2]*x+b[2] && y>a[3]*x+b[3]) return true;
+            if (y<a[0]*x+b[0] && y<a[1]*x+b[1] && y>a[2]*x+b[2] && y>a[3]*x+b[3]) return i;
+            if (y>a[0]*x+b[0] && y>a[1]*x+b[1] && y<a[2]*x+b[2] && y<a[3]*x+b[3]) return i;
+            if (y<a[0]*x+b[0] && y>a[1]*x+b[1] && y>a[2]*x+b[2] && y<a[3]*x+b[3]) return i;
+            if (y>a[0]*x+b[0] && y<a[1]*x+b[1] && y<a[2]*x+b[2] && y>a[3]*x+b[3]) return i;
         }
     }
-    return false;
+    return -1;
 }

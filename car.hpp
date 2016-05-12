@@ -8,6 +8,7 @@ class Car : public sf::Sprite
 {
 protected:
     sf::Texture texture;
+    double speed;
 
 public:
     virtual void drive(int permission)=0;

@@ -1,4 +1,5 @@
 #include "car.hpp"
+#include <math.h>
 
 void Car::set_vertices()
 {
@@ -14,8 +15,4 @@ void Car::set_vertices()
     vertices[4].y=this->getPosition().y+CAR_LENGTH*sin(this->getRotation()*M_PI/180)/2;
     vertices[5].x=this->getPosition().x-CAR_LENGTH*cos(this->getRotation()*M_PI/180)/2;
     vertices[5].y=this->getPosition().y-CAR_LENGTH*sin(this->getRotation()*M_PI/180)/2;
-    vertices[6].x=this->getPosition().x+CAR_HEIGHT*sin(-this->getRotation()*M_PI/180)/2;
-    vertices[6].y=this->getPosition().y+CAR_HEIGHT*cos(-this->getRotation()*M_PI/180)/2;
-    vertices[7].x=this->getPosition().x-CAR_HEIGHT*sin(-this->getRotation()*M_PI/180)/2;
-    vertices[7].y=this->getPosition().y-CAR_HEIGHT*cos(-this->getRotation()*M_PI/180)/2;
 }
