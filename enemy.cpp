@@ -25,6 +25,6 @@ Enemy::Enemy(double x, double y, double rotation)
 
 void Enemy::drive(int permission)
 {
-    ;
+;
 }
 

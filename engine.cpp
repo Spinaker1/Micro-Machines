@@ -25,7 +25,8 @@ Engine::~Engine()
 
 void Engine::update()
 {
-    player->drive(cars_collision(enemy,player) );
+    player->drive(cars_collision(player,enemy));
+    enemy->drive(cars_collision(enemy,player));
     view->setCenter(player->getPosition());
     window->setView(*view);
     window->clear(sf::Color::Black);
@@ -35,22 +36,22 @@ void Engine::update()
     window->display();
 }
 
-int Engine::cars_collision(Enemy *enemycar, Player *playercar)
+int Engine::cars_collision(Car *car1, Car *car2)
 {
-    if (enemy->getRotation() == 0 || enemy->getRotation()==90 || enemy->getRotation()==180 || enemy->getRotation()==270)
+    if (car2->getRotation() == 0 || car2->getRotation()==90 || car2->getRotation()==180 || car2->getRotation()==270)
     {
-        double A = enemycar->vertices[0].x;
-        double B = enemycar->vertices[2].x;
-        double C = enemycar->vertices[0].y;
-        double D = enemycar->vertices[2].y;
+        double A = car2->vertices[0].x;
+        double B = car2->vertices[2].x;
+        double C = car2->vertices[0].y;
+        double D = car2->vertices[2].y;
         for (int i = 0; i <= 5; i++)
         {
-            double x = playercar->vertices[i].x;
-            double y = playercar->vertices[i].y;
-            if (enemy->getRotation() == 0 && x < A && x > B && y < C && y > D) return i;
-            if (enemy->getRotation() == 90 && x > A && x < B && y < C && y > D) return i;
-            if (enemy->getRotation() == 180 && x > A && x < B && y > C && y < D) return i;
-            if (enemy->getRotation() == 270 && x < A && x > B && y > C && y < D) return i;
+            double x = car1->vertices[i].x;
+            double y = car1->vertices[i].y;
+            if (car2->getRotation() == 0 && x < A && x > B && y < C && y > D) return i;
+            if (car2->getRotation() == 90 && x > A && x < B && y < C && y > D) return i;
+            if (car2->getRotation() == 180 && x > A && x < B && y > C && y < D) return i;
+            if (car2->getRotation() == 270 && x < A && x > B && y > C && y < D) return i;
         }
     }
     else
@@ -61,17 +62,17 @@ int Engine::cars_collision(Enemy *enemycar, Player *playercar)
             int n;
             if (i==0) n=3;
             else n=i-1;
-            double x1=enemycar->vertices[i].x;
-            double x2=enemycar->vertices[n].x;
-            double y1=enemycar->vertices[i].y;
-            double y2=enemycar->vertices[n].y;
+            double x1=car2->vertices[i].x;
+            double x2=car2->vertices[n].x;
+            double y1=car2->vertices[i].y;
+            double y2=car2->vertices[n].y;
             a[i]=(y1-y2)/(x1-x2);
             b[i]=y1-a[i]*x1;
         }
         for (int i = 0; i <= 5; i++)
         {
-            double x = playercar->vertices[i].x;
-            double y = playercar->vertices[i].y;
+            double x = car1->vertices[i].x;
+            double y = car1->vertices[i].y;
 
             if (y<a[0]*x+b[0] && y<a[1]*x+b[1] && y>a[2]*x+b[2] && y>a[3]*x+b[3]) return i;
             if (y>a[0]*x+b[0] && y>a[1]*x+b[1] && y<a[2]*x+b[2] && y<a[3]*x+b[3]) return i;

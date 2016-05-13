@@ -21,7 +21,7 @@ public:
     Engine(sf::RenderWindow * win);
     ~Engine();
     void update();
-    int cars_collision(Enemy * enemycar, Player * playercar);
+    int cars_collision(Car *car1, Car *car2);
 };
 
 #endif

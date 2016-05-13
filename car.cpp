@@ -1,6 +1,8 @@
 #include "car.hpp"
 #include <math.h>
 
+
+
 void Car::set_vertices()
 {
     vertices[0].x=this->getPosition().x+CAR_LENGTH*cos(this->getRotation()*M_PI/180)/2+CAR_HEIGHT*sin(-this->getRotation()*M_PI/180)/2;
