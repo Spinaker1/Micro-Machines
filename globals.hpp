@@ -3,7 +3,7 @@
 
 const double MAX_SPEED_FORWARD=4;
 const double MAX_SPEED_BACK=2;
-const double ROTATION_ANGLE=2;
+const double ROTATION_ANGLE=3;
 const double PLAYER_START_X=500;
 const double PLAYER_START_Y=500;
 const double PLAYER_START_ROTATION=180;

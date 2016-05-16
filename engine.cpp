@@ -25,15 +25,24 @@ Engine::~Engine()
 
 void Engine::update()
 {
-    player->drive(cars_collision(player,enemy));
-    enemy->drive(cars_collision(enemy,player));
-    view->setCenter(player->getPosition());
-    window->setView(*view);
-    window->clear(sf::Color::Black);
-    window->draw(*background);
-    window->draw(*enemy);
-    window->draw(*player);
-    window->display();
+        player->drive(cars_collision(player, enemy));
+        enemy->drive(cars_collision(enemy, player));
+        view->setCenter(player->getPosition());
+        window->setView(*view);
+        window->clear(sf::Color::Black);
+        window->draw(*background);
+        window->draw(*enemy);
+        window->draw(*player);
+        window->display();
+        sf::Event event;
+        while (window->pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+            {
+                window->close();
+            }
+
+        }
 }
 
 int Engine::cars_collision(Car *car1, Car *car2)
