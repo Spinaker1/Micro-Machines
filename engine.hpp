@@ -7,21 +7,29 @@
 #include "enemy.hpp"
 #include "background.hpp"
 #include "globals.hpp"
+#include "filemanager.hpp"
 
 class Engine
 {
 private:
+    friend class Game;
+
     sf::RenderWindow * window;
     sf::View * view;
     Background * background;
     Player * player;
     Enemy * enemy;
+    sf::Clock * start_clock;
+    sf::Clock * clock;
+    File_Manager * file_manager;
 
-public:
-    Engine(sf::RenderWindow * win);
-    ~Engine();
-    void update();
+    void timer();
     int cars_collision(Car *car1, Car *car2);
+    bool finish(Car * car);
+public:
+    Engine(sf::RenderWindow * win, File_Manager * fm);
+    ~Engine();
+    bool update();
 };
 
 #endif

@@ -5,25 +5,30 @@
 #include <cstdlib>
 #include <string>
 
-Background::Background() 
+Background::Background(File_Manager * fm)
 {
 	this->texture = new sf::Texture();
-	this->tileset = new sf::Image();
+	file_manager=fm;
 }
 
-void Background::LoadMap(std::string filename)
+Background::~Background()
+{
+	delete texture;
+	delete data;
+}
+
+void Background::LoadMap()
 {
 	std::string temp;
-	std::ifstream openfile(filename.c_str());
-	std::getline(openfile, this->tilesetname);
-	std::getline(openfile, temp);
+	std::getline(this->file_manager->background_map, this->tilesetname);
+	std::getline(this->file_manager->background_map, temp);
 	this->tileWidth = atoi(temp.c_str());
-	std::getline(openfile, temp);
+	std::getline(this->file_manager->background_map, temp);
 	this->tileHeight = atoi(temp.c_str());
 
-	std::getline(openfile, temp);
+	std::getline(this->file_manager->background_map, temp);
 	this->width = atoi(temp.c_str());
-	std::getline(openfile, temp);
+	std::getline(this->file_manager->background_map, temp);
 	this->height = atoi(temp.c_str());
 
 	this->data = new int[this->width * this->height];
@@ -32,13 +37,11 @@ void Background::LoadMap(std::string filename)
 		for (int x = 0; x < this->width; x += 1)
 		{
 			char temp;
-			openfile >> this->data[x + y * this->width] >> temp;
+			this->file_manager->background_map >> this->data[x + y * this->width] >> temp;
 		}
 	}
-	openfile.close();
 
 	this->texture->create(this->width * this->tileWidth, this->height * this->tileHeight);
-	this->tileset->loadFromFile("images/grid.png");
 
 	sf::Image tile1, tile2, tile3, tile4;
 
@@ -47,10 +50,10 @@ void Background::LoadMap(std::string filename)
 	tile3.create(32, 32);
 	tile4.create(32, 32);
 
-	tile1.copy(*this->tileset, 0, 0, sf::IntRect(0, 0, this->tileWidth, this->tileHeight), true);
-	tile2.copy(*this->tileset, 0, 0, sf::IntRect(this->tileWidth, 0, this->tileWidth, this->tileHeight), true);
-	tile3.copy(*this->tileset, 0, 0, sf::IntRect(0, this->tileHeight, this->tileWidth, this->tileHeight), true);
-	tile4.copy(*this->tileset, 0, 0, sf::IntRect(this->tileWidth, this->tileHeight, this->tileWidth, this->tileHeight), true);
+	tile1.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(0, 0, this->tileWidth, this->tileHeight), true);
+	tile2.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(this->tileWidth, 0, this->tileWidth, this->tileHeight), true);
+	tile3.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(0, this->tileHeight, this->tileWidth, this->tileHeight), true);
+	tile4.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(this->tileWidth, this->tileHeight, this->tileWidth, this->tileHeight), true);
 
 	for (int y = 0; y < this->height; y += 1)
 	{
@@ -79,45 +82,21 @@ void Background::LoadMap(std::string filename)
 	this->setTexture(*this->texture);
 }
 
-/*int Background::Collision(Car* playercar, Direction direction)
+int Background::background_collision(Player* playercar, Direction direction)
 {
 	int x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width / 2) / this->tileWidth;
 	int y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height / 2) / this->tileHeight;
 	switch (direction)
 	{
-	case LEFT:
-		x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width) / this->tileWidth;
-		y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height / 2) / this->tileHeight;
+	case up:
+		x = (int)(playercar->vertices[UP].x) / this->tileWidth;
+		y = (int)(playercar->vertices[UP].y) / this->tileHeight;
 		break;
-	case RIGHT:
-		x = (int)(playercar->getPosition().x) / this->tileWidth;
-		y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height / 2) / this->tileHeight;
-		break;
-	case UP:
-		x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width / 2) / this->tileWidth;
-		y = (int)(playercar->getPosition().y) / this->tileHeight;
-		break;
-	case DOWN:
-		x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width / 2) / this->tileWidth;
-		y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height) / this->tileHeight;
-		break;
-	case TOP_LEFT:
-		x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width) / this->tileWidth;
-		y = (int)(playercar->getPosition().y) / this->tileHeight;
-		break;
-	case TOP_RIGHT:
-		x = (int)(playercar->getPosition().x) / this->tileWidth;
-		y = (int)(playercar->getPosition().y) / this->tileHeight;
-		break;
-	case BOTTOM_LEFT:
-		x = (int)(playercar->getPosition().x + playercar->getGlobalBounds().width) / this->tileWidth;
-		y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height) / this->tileHeight;
-		break;
-	case BOTTOM_RIGHT:
-		x = (int)(playercar->getPosition().x) / this->tileWidth;
-		y = (int)(playercar->getPosition().y + playercar->getGlobalBounds().height) / this->tileHeight;
+	case down:
+		x = (int)(playercar->vertices[DOWN].x) / this->tileWidth;
+		y = (int)(playercar->vertices[DOWN].y) / this->tileHeight;
 		break;
 	}
 	return this->data[x + y * this->width];
-}*/
+}
 

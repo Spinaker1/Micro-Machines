@@ -3,12 +3,15 @@
 #include "globals.hpp"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include "filemanager.hpp"
+
 
 class Car : public sf::Sprite
 {
 protected:
     sf::Texture texture;
     double speed;
+	File_Manager * file_manager;
 
 public:
     virtual void drive(int permission)=0;
