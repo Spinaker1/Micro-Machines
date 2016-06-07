@@ -14,7 +14,7 @@ Background::Background(File_Manager * fm)
 Background::~Background()
 {
 	delete texture;
-	delete data;
+	delete[] data;
 }
 
 void Background::LoadMap()
@@ -43,18 +43,15 @@ void Background::LoadMap()
 
 	this->texture->create(this->width * this->tileWidth, this->height * this->tileHeight);
 
-	sf::Image tile1, tile2, tile3, tile4;
+	sf::Image tile1, tile2, tile3;
 
 	tile1.create(32, 32);
 	tile2.create(32, 32);
 	tile3.create(32, 32);
-	tile4.create(32, 32);
 
 	tile1.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(0, 0, this->tileWidth, this->tileHeight), true);
 	tile2.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(this->tileWidth, 0, this->tileWidth, this->tileHeight), true);
 	tile3.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(0, this->tileHeight, this->tileWidth, this->tileHeight), true);
-	tile4.copy(this->file_manager->background_tileset, 0, 0, sf::IntRect(this->tileWidth, this->tileHeight, this->tileWidth, this->tileHeight), true);
-
 	for (int y = 0; y < this->height; y += 1)
 	{
 		for (int x = 0; x < this->width; x += 1)
@@ -72,13 +69,9 @@ void Background::LoadMap()
 				case 3:
 					this->texture->update(tile3, x * 32, y * 32);
 					break;
-				case 4:
-					this->texture->update(tile4, x * 32, y * 32);
-					break;
 			}
 		}
 	}
-
 	this->setTexture(*this->texture);
 }
 

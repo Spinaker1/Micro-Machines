@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-
+//Wyznacza punkty na obwodzie samochodu (wierzcholki i srodki bokow).
 void Car::set_vertices()
 {
     vertices[UPPER_RIGHT].x=this->getPosition().x+CAR_LENGTH*cos(this->getRotation()*M_PI/180)/2+CAR_HEIGHT*sin(-this->getRotation()*M_PI/180)/2;

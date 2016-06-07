@@ -13,7 +13,7 @@ File_Manager::File_Manager()
         exit(69);
     if(!(this->background_tileset.loadFromFile("images/grid.png")))
         exit(69);
-    this->background_map.open("images/test.map");
+    this->background_map.open("images/mapa.map");
     if (this->background_map.bad())
         exit(69);
     if(!(this->music_buffer.loadFromFile("sounds/menu_music.wav")))

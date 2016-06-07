@@ -25,8 +25,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-    delete window;
-    delete engine;
     delete file_manager;
 }
 

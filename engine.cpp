@@ -34,6 +34,7 @@ bool Engine::update() {
     sf::Text text("", file_manager->font2, 140);
     text.setStyle(sf::Text::Bold);
     text.setColor(sf::Color::Red);
+    //Poczatkowe odliczanie.
     if (!(finish(enemy)) && !(finish(player))) {
         int time = start_clock->getElapsedTime().asSeconds();
         if (time <= 2)
@@ -63,6 +64,7 @@ bool Engine::update() {
     window->draw(*player);
     window->draw(text);
     this->timer();
+    std::cout << player->getPosition().x << " " << player->getPosition().y << std::endl;
     window->display();;
     sf::Event event;
     while (window->pollEvent(event)) {
@@ -70,7 +72,6 @@ bool Engine::update() {
             event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
             window->close();
     }
-    std::cout << view->getCenter().x << std::endl;
     return false;
 }
 
@@ -116,6 +117,7 @@ int Engine::cars_collision(Car *car1, Car *car2) {
     return -1;
 }
 
+//Odpowiada za wyswietlenie zegara (ile trwa wyscig).
 void Engine::timer() {
     if (start_clock->getElapsedTime().asSeconds() > 5) {
         std::string tmp;
@@ -136,9 +138,10 @@ void Engine::timer() {
         clock->restart();
 }
 
+//Sprawdza czy jakas czesc samochodu przekroczyla linie mety.
 bool Engine::finish(Car *car) {
     for (int i = 0; i <= 5; i++) {
-        if (car->vertices[i].y > 7500) {
+        if (car->vertices[i].y < 0) {
             return true;
         }
     }

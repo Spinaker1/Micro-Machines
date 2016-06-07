@@ -1,15 +1,15 @@
 #ifndef globals_hpp
 #define globals_hpp
 
-const double MAX_SPEED_FORWARD=5;
+const double MAX_SPEED_FORWARD=4;
 const double MAX_SPEED_BACK=2;
 const double ROTATION_ANGLE=3;
-const double PLAYER_START_X=1000;
-const double PLAYER_START_Y=120;
-const double PLAYER_START_ROTATION=90;
-const double ENEMY_START_X=950;
-const double ENEMY_START_Y=120;
-const double ENEMY_START_ROTATION=90;
+const double PLAYER_START_X=150;
+const double PLAYER_START_Y=7550;
+const double PLAYER_START_ROTATION=270;
+const double ENEMY_START_X=230;
+const double ENEMY_START_Y=7550;
+const double ENEMY_START_ROTATION=270;
 const double WINDOW_LENGTH=800;
 const double WINDOW_HEIGHT=600;
 const int CAR_LENGTH=64;
