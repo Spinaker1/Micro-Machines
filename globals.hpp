@@ -2,6 +2,7 @@
 #define globals_hpp
 
 const double MAX_SPEED_FORWARD=4;
+const double MAX_SPEED_BONUS=10;
 const double MAX_SPEED_BACK=2;
 const double ROTATION_ANGLE=3;
 const double PLAYER_START_X=150;

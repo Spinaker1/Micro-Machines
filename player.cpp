@@ -21,6 +21,8 @@ Player::Player(double x, double y, double rotation, Background* background, File
 void Player::drive(int permission)
 {
 	float max_speed;
+	float rotation_angle;
+	rotation_angle=ROTATION_ANGLE;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		max_speed=MAX_SPEED_FORWARD;
@@ -29,15 +31,20 @@ void Player::drive(int permission)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, up) == 3)
+		if (this->background->background_collision(this, up) >= 28)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, up) == 2)
+		if (this->background->background_collision(this, up) == 3) 
+		{
+			rotation_angle=ROTATION_ANGLE*3;
+		}
+		if (this->background->background_collision(this, up) > 3 && this->background->background_collision(this, up) < 28)
 		{
 			max_speed=MAX_SPEED_FORWARD/2;
 		}
 		if (this->speed>=max_speed) this->speed=max_speed;
+		if (this->background->background_collision(this, up) == 2) this->speed=MAX_SPEED_BONUS;
 	}
     if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && speed>0.01) 
     {
@@ -46,7 +53,7 @@ void Player::drive(int permission)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, up) == 3)
+		if (this->background->background_collision(this, up) >= 28)
 		{
 			speed=0;
 		}
@@ -59,11 +66,11 @@ void Player::drive(int permission)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, down) == 3)
+		if (this->background->background_collision(this, down) >= 28)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, down) == 2)
+		if (this->background->background_collision(this, down) >= 3 && this->background->background_collision(this, down) < 28)
 		{
 			max_speed=MAX_SPEED_BACK/2;
 		}
@@ -77,21 +84,21 @@ void Player::drive(int permission)
 		{
 			speed=0;
 		}
-		if (this->background->background_collision(this, down) == 3)
+		if (this->background->background_collision(this, down) >= 28)
 		{
 			speed=0;
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) 
 		speed=0;
 	this->move(speed*cos(this->getRotation()*M_PI/180),this->speed*sin(this->getRotation()*M_PI/180));
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-        this->rotate(-ROTATION_ANGLE);
+        this->rotate(-rotation_angle);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        this->rotate(ROTATION_ANGLE);
+        this->rotate(rotation_angle);
     }
     this->set_vertices();
 }

@@ -11,7 +11,7 @@ File_Manager::File_Manager()
         exit(69);
     if((!this->font2.loadFromFile("fonts/fenwick-outline.ttf")))
         exit(69);
-    if(!(this->background_tileset.loadFromFile("images/grid.png")))
+    if(!(this->background_tileset.loadFromFile("images/tileset2.png")))
         exit(69);
     this->background_map.open("images/mapa.map");
     if (this->background_map.bad())
